@@ -1,1 +1,1 @@
-print('Hoang dog')
+print(2*[1])
