@@ -97,11 +97,11 @@ print(f"so tu thoa man: {count_string()}" )
 
 
 def sort_last(value):
-    return value[1]
+    return value[-1]
 
 
 print("---------bai 6---------")
-list3 = [(1, 4), (2, 0), (0, 1), (5, 2), (9, -1)]
+list3 = [(1, ), (2, 0), (0, 1), (5, 2), (9, -1, 0)]
 list3.sort(key=sort_last)
 print(list3)
 
@@ -118,4 +118,3 @@ def change_word(word):
 print("-------bai 7----------")
 print(change_word("HAY TRAO CHO ANH"))
 
-        
