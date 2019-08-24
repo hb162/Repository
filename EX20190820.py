@@ -1,9 +1,9 @@
 import xlrd
-from cryptography.fernet import Fernet
+from xlutils.copy import copy
+from datetime import datetime
 
 
 class User:
-
     def __init__(self, first_name, last_name, birthday, email, address, username, password):
         self.first_name = first_name
         self.last_name = last_name
@@ -39,21 +39,34 @@ class User:
         self.username = new_usr
         self.password = new_pasw
 
-    def print_infor(self):
-        print(f"""
-        first name: {self.first_name}
-        last name: {self.last_name}
-        birthday: {self.birthday}
-        email: {self.email}
-        address: {self.address}
-        username: {self.username}
-        password: {self.password}
-        """)
+
+def create_account():
+    values = []
+    limit_date = datetime(1900, 1, 1)
+    limit_date2 = datetime(2002, 1, 1)
+    wb = xlrd.open_workbook("test2 (another copy).xlsx")
+    br = copy(wb)
+    sheet1 = br.get_sheet(0)
+    for sheet in wb.sheets():
+        for i in range(1, sheet.nrows):
+            val = sheet.cell(i, 5).value
+            if val in values:
+                sheet1.write(i, 7, "No")
+            else:
+                try:
+                    bth_day = sheet.cell(i, 2).value
+                    bth_day = datetime.strptime(bth_day, "%Y-%m-%d")
+                except ValueError:
+                    print("Data mismatch or data does not match format")
+                else:
+                    if limit_date < bth_day < limit_date2:
+                        sheet1.write(i, 7, "Yes")
+                        values.append(val)
+                    else:
+                        sheet1.write(i, 7, "No")
+
+    br.save("test2 (another copy).xlsx")
 
 
-A = User("Jason", "Staham", "01/01/1989", "jsonstaham@gmail.com", "USA", "jsonstaham", "123456")
-A.login("jsonstaham", "123456")
-A.print_infor()
-A.logout()
-# B = User("Vin", "Diesel", "02/02/1980", "vindiesel@gmail.com", "USA", "vindiesel", "12345")
-# B.login("vindiesel", "12345")
+create_account()
+
